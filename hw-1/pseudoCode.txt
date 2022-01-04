@@ -1,0 +1,241 @@
+sentWorkers     clients       waitingClients
+0                   0               0   0 
+0                   0               1   1
+0                   1               0   2
+0                   1               1   3
+1                   0               0   4
+1                   0               1   5 
+1                   1               0   6
+1                   1               1   7
+//имената на трите опашки
+// 0 - няма елементи
+// 1 - има елементи
+
+Queue<worker> sentWorkers ---------------> A
+Queue<client> clients -------------------> B
+Vector<client> waitingClients -----------> C
+
+
+
+Case0=: A = 0, B = 0, C = 0
+	-return
+    Event ==> No Events
+
+Case1=: A = 0, B = 0, C= 1 
+	Int bananasToTake = client.banana;
+	Int SchweppesToTake = client.schweppes;
+
+    IF  store.banana – client.banana < 0
+            bananasToTake = store.banana;
+    IF store.schweppes – client.schweppes < 0
+            schweppesToTake = store.schweppes;
+
+    store.Banana -= bananasToTake;
+    store.Schweppes -= SchweppesToTake;
+
+    Event ==> ClientDepart with the top 2 variables;
+
+Case2=:A = 0, B = 1, C = 0
+    
+    If clients.peek().bananas <= store.bananas && clients.peek().schweppes <= store.schweppes
+        store.Banana -= clients.peek().bananas;
+        store.Schweppes -= clients.peek().schweppes;
+        
+        Event => ClientDepart with the his quantity of items
+
+     ;//Случай когато клиента иска и банани и швепс, но имаме 1 работник;
+    Else If clients.peek().bananas > store.bananas && clients.peek().schweppes > store.schweppes && workerCount == 1
+            If clients.peek().bananas - store.bananas >= client.peek().schweppes – store.SCH
+                Event => workerSend with bananas (time++);
+            Else 
+                Event => workerSend with Schweppes (time++);
+
+            waitingClients.push_back( clients.dequeue() );
+
+    ;//когато иска швепс или банани и имаме повече от 1 работници;
+    Else If (client.peek().bananas > store.bananas || clients.peek().schweppes > store.schweppes) && workerCount >= 1
+            if clients.peek().bananas > store.bananas 
+                workerCount--;
+                Event => workerSend with bananas (time++);
+
+            if clients.peek().schweppes > store.schweppes
+                workerCount--;
+                Event => workerSend with schweppes (time++);
+
+            waitingClients.push_back( clients.dequeue() );
+
+    Else If workerCount == 0
+        waitingClients.push_back( clients.dequeue() );
+
+
+Case3=: A = 0, B = 1, C = 1
+    
+         case2=;
+
+         case1=;
+
+;Events are handled by each of the cases;
+
+Case4=: A = 1, B = 0, C = 0
+        ;With no waiting clients to be serviced i just restock;
+        Event=> workerReturn
+		His resource += 100;
+		workerCount++;
+
+They want us to advance to 250
+But we see that an event is going to happen in time 100
+In moment 100 we see that a worker is going to return and a customer is about to leave
+
+case5=: A = 1, B = 0, C = 1
+
+    for sentWorkers.peek().arriveTime == time
+        Event=> workerReturn
+        sentWorkers.dequeue()
+		His resource += 100;
+		workerCount++;
+
+
+
+
+
+
+
+
+    ;TO DO.... EVERYTHING UNDERNEATH... AND ABOVE...
+
+
+
+
+
+
+
+
+    while waitingClients[getIdxOfEarliestToArriveClient]
+
+        
+        ;След връщането му трябва да обслужа Earliest To Arrive Client
+        ; ^^ always serve the client who is first to arrive if the necessary resources are available
+
+        ;Event -> ClientDepart;
+
+        ; Two could arrive at the same time corner case :), i.e. do as many departs as clients are about to depart
+        ; Get rid of all
+
+        for client in clients that are about to depart in moment time do:
+            client.depart()
+
+        if(!waitingClients.empty() && waitingClients[getIdxOfnextClientToLeave()] == time)
+        int idx = nextToLeaveClient();
+        If client.bananas < store.bananas && client.schweppes < store.schweppes
+            store.banana -= client.banana;
+            sotre.schweppes -= client.schweppes;
+            Event=>ClientDepart
+        
+        Else ;wait for next event (client depart / worker return)
+            Event => NO EVENTS
+
+case6=:  A = 1, B = 1, C = 0
+    if clients.peek().arriveTime  < sentWorkers.peek().retunTime
+        имам case2=;
+        ;клиент пристига и трябва да се обслужи, АКО няма да се върнат работници които да му донесат достатъчно стока.
+        ;още един иф трябва да направя над case2..
+    Else
+        имам case4=; Имам работник който се връща и понеже нямам чакащи клиенти няма кого да обслужа, съответно просто рестоквам
+;Events are handled by each of the cases;
+
+case7=: A = 1, B = 1, C = 1
+    if clinet.peek().arriveTime <= Min( { waitingClients.depart } ) && client.peek().arriveTime <= sentWorkers.peek().retunTime 
+        имам case2=;
+    else if sentWorkers.peek().retunTime < client.peek().arriveTime && sentWorkers.peek().retunTime <=  Min( { waitingClients.depart } )
+        имам case5=;
+    else 
+        имам case1=;
+
+
+
+
+
+
+
+
+
+
+
+Примерен вход:      
+5 4
+0 10 0 10
+45 35 0 30 - 75
+46 30 20 100
+200 10 10 1
+
+Изход:     0 4 0
+W 0 banana 1 3 1
+0 10 0 0   1 3 0
+->45//ne se izpr rabotnik 1 2 1
+W 46 schweppes 2 1 2
+D 60 banana  1 1 2   
+1 60 35 0    1 1 1
+D 106 schweppes 0 1 1
+2 106 30 20  0 1 0
+3 200 10 10  0 0 0 
+
+int getEarliestEventTime() 
+{
+    clients.peek().arriveTime()
+    sentWorkers.peek().returnTIme
+    vector -> min.client.leave
+}
+
+Изход:     
+W 0 banana 
+0 10 0 0   
+W 46 schweppes 
+D 60 banana     
+1 60 35 0    
+D 106 schweppes 
+2 106 30 20  
+3 200 10 10  
+
+;;
+
+
+int getHashCode(int time)
+{   result = 0;
+
+    if (!sentWorkers.isEmpty() && sentWorkers.peek().arrivetime == time) {
+        result += 4; //100
+    }
+
+    if (!clients.isEmpty() && clients.peek().arrivetime == time) {
+        result += 2; //010
+    }
+
+    if (!waitingClients.empty() && waitingClients[getIdxOfnextClientToLeave()].departTime() == time) {
+        result += 1; //001
+    }
+
+    return result;
+}
+
+int getIdxOfnextClientToLeave()
+{
+    int idx = 0;
+    for (int i = 1; i < waitingClients.size(); i++)
+    {
+        if (waitingClients[i].maxWaitTime < waitingClients[idx].maxWaitTime)
+        {
+            idx = i;
+        }
+    }
+    return idx;
+}
+
+
+While(getEarliestEventTime() <= minute)
+{
+    int idx = this->getHashCode(getEarliestEventTime());
+    (this->*cases[idx])();
+}
+
+
+
