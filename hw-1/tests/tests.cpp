@@ -1,9 +1,8 @@
 #define CATCH_CONFIG_MAIN
 
-#include "interface.h"
+#include "../interface.h"
 #include "catch.hpp"
 
-//#include "implementation.cpp"
 #include <vector>
 
 const int RESTOCK_TIME = 60;
