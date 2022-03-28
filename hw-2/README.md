@@ -229,8 +229,7 @@ Lozenec_new saved.
 > exit
 Lozenec is modified, but not saved.
 Enter file name to save it:
-```
-```
+
 > lozenec.data
 Lozenec saved.
 Goodbye
