@@ -148,7 +148,7 @@ MishoPetrov - Slav
 Lozenec_new loaded successfully!
 ```
 ```
-> join Lozenec Lozenec\_new LozBig
+> join Lozenec Lozenec_new LozBig
 LozBig created.
 ```
 ```
@@ -160,7 +160,7 @@ LozBig saved.
 The manager of Misho is Uspeshnia.
 ```
 ```
->num\_subordinates LozBig MishoPetrov
+>num_subordinates LozBig MishoPetrov
 MishoPetrov has one subordinates.
 ```
 ```
@@ -168,7 +168,7 @@ MishoPetrov has one subordinates.
 MishoPetrov was fired.
 ```
 ```
-> num\_subordinates LozBig Uspeshnia
+> num_subordinates LozBig Uspeshnia
 Uspeshnia has four subordinates.
 ```
 ```
@@ -213,7 +213,8 @@ Stojan _was hired.
 ```
 > modernize Lozenec_new
 Lozenec_new modernized.
-
+```
+```
 > save Lozenec_new
 Uspeshnia-MishoPetrov
 MishoPetrov-Ivan
