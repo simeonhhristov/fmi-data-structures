@@ -139,7 +139,7 @@ std::vector<std::vector<int>> getMazePath(std::vector<std::vector<Pair>> &parent
     int i = startR;
     int j = startC;
 
-    // backtrack until we reach the beggining
+    // backtrack until we reach the beginning
     while (i != 0 || j != 0)
     {
         Pair current = parentGrid[i][j];
