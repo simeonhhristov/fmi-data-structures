@@ -156,10 +156,13 @@ std::vector<std::vector<int>> getMazePath(std::vector<std::vector<Pair>> &parent
 }
 bool solveMaze(std::vector<std::vector<char>> &grid)
 {
+    // Note: if we also want to show the number of steps leading to the end
+    //  we can store the steps required for each cell in a new grid called distances
+
     // parent Grid to backTrack path
     std::vector<std::vector<Pair>> parentGrid(grid.size(), std::vector<Pair>(grid[0].size(), {0, 0}));
     // path grid to display shortest path
-    std::vector<std::vector<int>> path(grid.size(), std::vector<int>(grid[0].size(), 0));
+    std::vector<std::vector<int>> path;
     // grid to keep track of visited cells
     std::vector<std::vector<bool>> visited(grid.size(), std::vector<bool>(grid[0].size(), 0));
 
